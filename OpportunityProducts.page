@@ -1,0 +1,111 @@
+<apex:page standardController="Opportunity" extensions="ProductSummaryController"  standardStylesheets="false"  
+           showHeader="false" sidebar="false" applyBodyTag="false" applyHtmlTag="false"  >
+ 
+    <html>
+        <head>
+            <style>
+            
+
+
+body {
+	font-family: Arial Unicode MS;
+}
+
+table,
+th,
+td {
+	border-collapse: collapse;
+	border-color: grey;
+	font-size: 12px;
+	padding: 8px;
+}
+
+             
+
+#inv-table th {
+	font-family: "Verdana";
+	font-size: 12px;
+	padding: 4px 10px;
+	text-transform: uppercase;
+    border: solid 1px #808080;
+}          
+            
+ </style>
+           
+        </head>
+        <body>
+            
+            <table style="border-collapse: collapse; border: none; width: 100%; font-size:16px">
+                <tr style="border: none;">
+                  <td style="border: none;">
+                        <p class="font-weight-bold">Opportunity Information </p>
+                         <p>{!opportunity.name} <br/>
+                             Account: {!opportunity.Account.Name}
+                      </p>
+                    </td>
+                    <td style="border: none;">  
+                        <div style="text-align: center;">
+                            <h2 >Opportunity Products Summary</h2>
+                        </div>
+                    </td>
+                    <td class="text-right" style="border: none; text-align: right!important;">
+                        Date: <apex:outputText value="{0,date,dd', 'MMMM', 'yyyy}">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText> <br/>
+                       
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            
+            <table  width="100%" id="inv-table" style="border: solid 1px #808080;" >               
+                <tr>
+                    <th>Product Family</th>
+                    <th>Product Name</th>
+                    <th>Sales Price</th>
+                    <th>Quantity </th>
+                    <th>Total</th>
+                </tr>
+                
+                <apex:repeat value="{!opportunityLineItemMap}" var="key">
+                    <apex:variable value="{!1}" var="rowNum" />
+                   
+                    <apex:repeat value="{!opportunityLineItemMap[key]}" var="oli">
+                        
+                        <tr>
+                            <apex:variable value="" var="" rendered="{!rowNum = 1}">
+                                <td width="25%" style="border-top: solid 1px #808080;border-left: solid 1px #808080;">
+                                    {!key}
+                                </td>
+                            </apex:variable>
+                            
+                            <apex:variable value="" var="" rendered="{!rowNum > 1}">
+                                <td width="25%" style="border-left: solid 1px #808080;" >
+                                    &nbsp;
+                                </td>
+                            </apex:variable>
+                            <td width="23%" style="border-left: solid 1px #808080;border-bottom: solid 1px #808080;border-right: solid 1px #808080;" >
+                                {!oli.Product2.Name}
+                            </td>
+                            <td width="13%" style="border-bottom: solid 1px #808080;border-right: solid 1px #808080;">
+                                {!oli.UnitPrice}
+                            </td>
+                            <td width="13%" style="border-bottom: solid 1px #808080;border-right: solid 1px #808080;">
+                                {!oli.Quantity}
+                            </td>
+                            <td width="13%" style="border-bottom: solid 1px #808080;border-right: solid 1px #808080;" >
+                                {!oli.TotalPrice}
+                            </td>                             
+                        </tr>
+                        <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                    </apex:repeat>
+                </apex:repeat>
+            </table>
+            
+            <br/> 
+           
+           <br/> 
+            
+        </body>
+    </html>
+</apex:page>
